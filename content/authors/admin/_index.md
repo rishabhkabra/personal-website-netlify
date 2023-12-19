@@ -39,7 +39,7 @@ education:
     - course: MSc in Applied Statistics
       institution: University of Oxford
       year: 2015
-    - course: BS in Computer Science (Minor: Mathematics)
+    - course: BS in Computer Science (Minor in Mathematics)
       institution: Massachusetts Institute of Technology
       year: 2014
 
