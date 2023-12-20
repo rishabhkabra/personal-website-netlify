@@ -1,6 +1,6 @@
 ---
 # Display name
-title: 吳健雄
+title: Rish Kabra
 
 # Full name (for SEO)
 first_name: Rishabh
@@ -26,7 +26,7 @@ bio: The revolution will not be supervised.
 
 # Interests to show in About widget
 interests:
-  - Unsupervised learning
+  - Unsupervised Learning
   - Computer Vision
   - Generative Models
 
@@ -35,7 +35,7 @@ education:
   courses:
     - course: PhD in Artificial Intelligence
       institution: University College London
-      year: ongoing
+      year: 2023-present
     - course: MSc in Applied Statistics
       institution: University of Oxford
       year: 2015
@@ -59,7 +59,7 @@ social:
       header: true
   - icon: graduation-cap # Alternatively, use `google-scholar` icon from `ai` icon pack
     icon_pack: fas
-    link: https://scholar.google.co.uk/citations?user=sIwtMXoAAAAJ
+    link: https://scholar.google.com/citations?user=NVD-BU4AAAAJ&hl=en
   - icon: github
     icon_pack: fab
     link: https://github.com/rishabhkabra
@@ -72,6 +72,6 @@ social:
 highlight_name: true
 ---
 
-I'm a Research Engineer at Google DeepMind where I've been since 2017. Recently I also embarked a PhD with Prof. Niloy Mitra in the Smart Geometry Group at University College London. I'm interested in vision-language models, scene uncerstanding, object-centric reasoning, and generative models.
+I'm a Research Engineer at Google DeepMind where I've been since 2017. Recently I also embarked a PhD with Prof. Niloy Mitra in the Smart Geometry Group at University College London. I'm interested in representation learning, scene understanding, object-centric reasoning, and generative models.
 
 {style="text-align: justify;"}
