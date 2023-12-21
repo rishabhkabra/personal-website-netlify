@@ -39,8 +39,9 @@ tags: []
 # Display this page in the Featured widget?
 featured: true
 
-url_slides: ''
+url_slides: 'https://dpmd.ai/simone-slides'
 url_project: 'https://sites.google.com/view/simone-scene-understanding/'
+url_video: 'https://slideslive.com/38968266/simone-viewinvariant-temporallyabstracted-object-representations-via-unsupervised-video-decomposition'
 
 # Featured image
 # To use, add an image named `featured.jpg/png` to your page's folder.
