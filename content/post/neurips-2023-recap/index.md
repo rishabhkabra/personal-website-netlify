@@ -31,7 +31,7 @@ authors:
   - admin
 
 categories:
-  - Conference
+  - Conferences
 ---
 
 
@@ -121,7 +121,7 @@ An object-centric benchmark to assess generated images for text-image alignment.
 [UniSim](https://universal-simulator.github.io/unisim/), a video diffusion model which can “simulate realistic experience” of humans/agents interacting with their environment. Can simulate both high-level (e.g., open the drawer) and low-level instructions (e.g., move to x,y). Can be used to train both vision-language planners and low-level RL policies.
 
 
-![alt_text](posters/.png)
+![alt_text](posters/yang_s.png)
 
 
 Open-vocabulary part segmentation. They clean and relabel the Pascal-Part and ADE20K-Part datasets.
@@ -259,7 +259,7 @@ Contextual pretraining using a buffer of data enables semantic segmentation, dep
 FactorCL: Contrastive learning taking into account shared and unique information between X1 and X2. They propose using a conditional InfoNCE lower bound to include information and conditional CLUB upper bound to exclude information.
 
 
-![alt_text](posters/liang.jpg)
+![alt_text](posters/liang_p.jpg)
 
 
 A comparison of video contrastive (MoCo and SimCLR), non-contrastive (BYOL, SimSiam, DINO), generative, and supervised methods under distribution shifts affecting content, viewpoint, actor, etc. Contrastive or Siamese methods learn better viewpoint invariance.
@@ -280,7 +280,7 @@ Implicit contrastive learning using an asymmetric loss between a source encoder 
 [Best paper] Mirage. Emergence by scaling is a phenomenon of tracking nonlinear metrics such as accuracy. With smoother metrics, performance scales smoothly as a function of model size.
 
 
-![alt_text](posters/image37.png)
+![alt_text](posters/schaeffer.jpg)
 
 
 Fine-tuning by preserving the pairwise angle of weights rather than additive LoRA. This seems like a more constrained form of fine-tuning, but the authors showed it's enough to fine-tune this way from random weights! The hypersphere energy has been shown to charecterize generalization. They also have new work on language models.
@@ -292,7 +292,7 @@ Fine-tuning by preserving the pairwise angle of weights rather than additive LoR
 Tree of Thoughts implements deliberate problem solving via search in LLMs. 
 
 
-![alt_text](posters/yao.jpg)
+![alt_text](posters/yao_s.jpg)
 
 
 Tree VAEs to enable hierarchical clustering. The tree structure is discovered using an iterative growing schedule.
@@ -335,7 +335,7 @@ Convolutional State Space Models: help improve long horizon moving MNIST generat
 A 3D feature extractor based on three different methods to inject 3D information into LLMs: features from direct reconstruction (of point cloud and images), grandSLAM, and NeRFs. On the language side, they generate language data using a pipeline based on ChatGPT and BLIP. Evaluation on ScanQA. 
 
 
-![alt_text](posters/hong.jpg)
+![alt_text](posters/hong_y.jpg)
 
 
 [Fusing Stable Diffusion and DINO](https://sd-complements-dino.github.io/) features followed by zero-shot evaluation can outperform SoTA methods on dense and semantic correspondence tasks.
@@ -451,7 +451,7 @@ Classification using diffusion models using a labels x timesteps score matrix an
 
 Reweighted diffusion losses (which look different from the ELBO) can be seen as ELBO + additive Gaussian data augmentation.
 
-![alt_text](posters/kigma.jpg)
+![alt_text](posters/kingma.jpg)
 
 
 Diffusion models for dense vision tasks. Using large-scale synthetic data boosts performance. Evaluation on KITTI flow and NYU depth.
@@ -486,7 +486,7 @@ Quantization works better than regularization to learn disentangled latent repre
 
 A theory of compositional generalization. The claims are: it requires a compositional support (i.e., training set supporting all configurations) that is also sufficient (i.e., enables reconstruction of all components).
 
-![alt_text](posters/wiedemar.jpg)
+![alt_text](posters/wiedemer.jpg)
 
 
 
@@ -505,24 +505,18 @@ A fun dataset of chimpanzee actions/behaviors. Permits detection, pose estimatio
 Efficiency gains in voting unlocked using an explainable randomization step added to deterministic voting rules.
 
 
-
-![alt_text](posters/image75.jpg)
+![alt_text](posters/ebadian.jpg)
 
 
 Geographically diverse images per object class compared to ImageNet. They identify gaps in model performance (ResNet50, CLIP) from region to region. They also train models on their dataset, and show improvements when testing on a different geo-diverse dataset.
 
 
-
-![alt_text](posters/image76.jpg)
+![alt_text](posters/ramaswamy.jpg)
 
 
 DataComp: a large-scale multimodal dataset that outperforms LAION.
 
-
-
-
-
-![alt_text](posters/image77.jpg)
+![alt_text](posters/gadre.jpg)
 
 
 
@@ -533,32 +527,21 @@ DataComp: a large-scale multimodal dataset that outperforms LAION.
 Object placement in scenes by first hallucinating scenes around objects. A model is trained to calculate placement plausibility based on positive (generated) examples and negative (bad crop) examples. The model can be run on grid points on the target scene to find the best object placement. 
 
 
-
-
-
-![alt_text](posters/image78.jpg)
+![alt_text](posters/yuan_l.jpg)
 
 
 DA-Fusion: dreambooth style tokens which allow generating variations of an image for data augmentation. Keeping the token fixed, it is possible to alter the image latent at some stage t of the diffusion generative process.
 
 
-
-
-
-![alt_text](posters/image79.jpg)
+![alt_text](posters/trabucco.jpg)
 
 
 Diffusion models do disentangle when shown only diagonal elements of a feature grid, if they are stopped early during training.
 
-
-
-
-
-![alt_text](posters/image80.jpg)
+![alt_text](posters/scimeca.jpg)
 
 
 SAD: segmentation over RGBD by running SAM on colormap of depth, and then fusing with an OVSeg segmentation of the RGB image.
-
 
 ![alt_text](posters/cen_j.jpg)
 
