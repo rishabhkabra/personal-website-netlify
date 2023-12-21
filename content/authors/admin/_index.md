@@ -18,11 +18,13 @@ role: Research Engineer and PhD Student
 
 # Organizations/Affiliations to show in About widget
 organizations:
+  - name: Google DeepMind
+    url: https://deepmind.google
   - name: Smart Geometry @ UCL
     url: https://geometry.cs.ucl.ac.uk
 
 # Short bio (displayed in user profile at end of posts)
-bio: The revolution will not be supervised.
+bio: The revolution will not be supervised. But it will be somewhat structured.
 
 # Interests to show in About widget
 interests:
