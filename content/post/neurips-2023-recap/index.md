@@ -42,7 +42,7 @@ categories:
 This is a slice of topics I’ve been interested in of late, including VLMs, scene understanding, object-centric representations, and generative models. The posters below reflect about 2% of NeurIPS. While I have attempted to capture what is trending, there are entire fields that aren’t reflected here. On the whole the conference was less hype-y than last year. There was a lot of focus on evaluation, new ways of using existing models, and generating new data.
 
 
-### Text-image alignment, attribution, and synthetic data
+### Text-image alignment, attribution, and synthetic data {#text-image}
 
 [DreamSim](https://dreamsim-nights.github.io/): introduces a human-judgment dataset called NIGHTS to capture “mid-level perceptual similarities.” The dataset is collected using a two-alternative forced choice given a reference image. An ensemble of CLIP, OpenCLIP, and DINO is LoRA-tuned on NIGHTS, showing an increase in the DreamSim perceptual metric. 
 ![alt_text](posters/fu_s.jpg)
@@ -86,7 +86,7 @@ Ask GPT to generate confusing descriptions for better negative examples. They us
 ![alt_text](posters/li_l_h.jpg)
 
 
-Text-image alignment benchmark. Uses an NLI entailment model at Google (Q-squared). (Note to self: PaLI is exposed via an API called Vertex AI.)
+Text-image alignment benchmark. Uses an NLI entailment model at Google (Q-squared).
 
 
 ![alt_text](posters/yarom.jpg)
@@ -179,10 +179,7 @@ Multimodal Information Bottleneck for attribution. Outperforms other methods lik
 
 
 
-### 
-
-
-### Objects/slots/segments
+### Objects/slots/segments {#objects-slots-segments}
 
 SOLV: Object discovery on real life videos (YouTube) without any additional modalities. They compare with the SoTA, DINOSAUR.
 
@@ -245,10 +242,7 @@ A study of occlusions in video action detection. They have 9 severity levels bas
 
 
 
-### 
-
-
-### Contrastive learning
+### Contrastive learning {#contrastive}
 
 Contextual pretraining using a buffer of data enables semantic segmentation, depth prediction, and in-context decoding via retrieval.
 
@@ -275,7 +269,7 @@ Implicit contrastive learning using an asymmetric loss between a source encoder 
 
 
 
-### Other Theory
+### Other Theory {#other-theory}
 
 [Best paper] Mirage. Emergence by scaling is a phenomenon of tracking nonlinear metrics such as accuracy. With smoother metrics, performance scales smoothly as a function of model size.
 
@@ -330,7 +324,7 @@ Convolutional State Space Models: help improve long horizon moving MNIST generat
 
 
 
-### 3D
+### 3D {#3d}
 
 A 3D feature extractor based on three different methods to inject 3D information into LLMs: features from direct reconstruction (of point cloud and images), grandSLAM, and NeRFs. On the language side, they generate language data using a pipeline based on ChatGPT and BLIP. Evaluation on ScanQA. 
 
@@ -418,10 +412,7 @@ Diffusion over articulation trees (graphs) to generate articulated objects.
 
 
 
-### 
-
-
-### Diffusion and GANs (for images)
+### Diffusion and GANs (for images) {#diffusion-and-gans}
 
 Text-to-panorama generation using synchronized joint diffusions. They compute the coherence for multiple diffusion processes in _advance_.
 
@@ -460,7 +451,7 @@ Diffusion models for dense vision tasks. Using large-scale synthetic data boosts
 
 
 
-### Concepts and disentanglement
+### Concepts and disentanglement {#concepts-disentanglement}
 
 Multiple classification taxonomies on CLEVR. MAEs perform the worst on unsupervised clustering (of frozen features) on shape. All models are bad at counting––it’s better to train a ResNet from scratch.
 
@@ -490,7 +481,7 @@ A theory of compositional generalization. The claims are: it requires a composit
 
 
 
-### Fun/novelties/new datasets
+### Fun/novelties/new datasets {#novelties}
 
 Tracking human positions based on the acoustic profile of the room.
 
