@@ -35,8 +35,6 @@ categories:
 ---
 
 
-# NeurIPS 2023 Recap
-
 This is a slice of topics I’ve been interested in of late, including VLMs, scene understanding, object-centric representations, and generative models. The posters below reflect about 2% of NeurIPS. While I have attempted to capture what is trending, there are entire fields that aren’t reflected here. On the whole the conference was less hype-y than last year. There was a lot of focus on evaluation, new ways of using existing models, and generating new data.
 
 
@@ -575,4 +573,4 @@ Linda Smith (IndianaU) keynote on how babies might learn long-tailed knowledge f
 
 # Appendix
 
-If you’re interested, I did a similar recap for ICML 2023 [here](https://docs.google.com/document/d/1MAqNClzFc3M-TF3hsAEBAKsWWq_9HKePHNsr-Onpm-4/edit?resourcekey=0-n0U_jh0FJoiRwCMOF_E3xA&tab=t.0#heading=h.pwkcigpvclvr).
+If you’re interested, I did a similar recap for ICML 2023 [here](../icml-2023-recap/).
