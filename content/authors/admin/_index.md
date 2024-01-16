@@ -1,6 +1,6 @@
 ---
 # Display name
-title: Rish Kabra
+title: Rishabh Kabra
 
 # Full name (for SEO)
 first_name: Rishabh
