@@ -74,6 +74,6 @@ social:
 highlight_name: true
 ---
 
-I'm a Research Engineer at Google DeepMind where I've been since 2017. Recently I also embarked a PhD with Prof. Niloy Mitra in the Smart Geometry Group at University College London. I'm interested in representation learning, scene understanding, object-centric reasoning, and generative models.
+I'm a Research Engineer at Google DeepMind where I've been since 2017. Recently I also embarked on a PhD with Prof. Niloy Mitra in the Smart Geometry Group at University College London. I'm interested in representation learning, scene understanding, object-centric reasoning, and generative models.
 
 {style="text-align: justify;"}
