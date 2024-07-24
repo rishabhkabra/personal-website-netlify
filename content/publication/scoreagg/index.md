@@ -39,5 +39,6 @@ featured: true
 # Featured image
 # To use, add an image named `featured.jpg/png` to your page's folder.
 
+url_project: 'https://leveraging-vlms-to-annotate-3d-objects.github.io/'
 ---
 
