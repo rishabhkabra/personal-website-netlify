@@ -28,9 +28,10 @@ bio: The revolution will not be supervised. But it will be somewhat structured.
 
 # Interests to show in About widget
 interests:
-  - Unsupervised Learning
-  - Computer Vision
-  - Generative Models
+  - Visual Perception
+  - Multimodal Learning
+  - Analysis by Synthesis
+  - Causality
 
 # Education to show in About widget
 education:
