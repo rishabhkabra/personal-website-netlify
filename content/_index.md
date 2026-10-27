@@ -92,8 +92,19 @@ sections:
       text: |-
         Please reach out if you're interested in any of my work.
       # Contact (add or remove contact options as necessary)
-      email: ucabrk1@ucl.ac.uk
       contact_links:
+        - icon: envelope
+          icon_pack: fas
+          name: 'rkabra&#64;alum.mit.edu'
+          link: 'mailto:rkabra@alum.mit.edu'
+        - icon: envelope
+          icon_pack: fas
+          name: 'rishabh.kabra.22&#64;ucl.ac.uk'
+          link: 'mailto:rishabh.kabra.22@ucl.ac.uk'
+        - icon: envelope
+          icon_pack: fas
+          name: 'rkabra&#64;deepmind.com'
+          link: 'mailto:rkabra@deepmind.com'
         - icon: twitter
           icon_pack: fab
           name: DM Me
