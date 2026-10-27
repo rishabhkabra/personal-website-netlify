@@ -35,7 +35,7 @@ interests:
 # Education to show in About widget
 education:
   courses:
-    - course: PhD in Artificial Intelligence
+    - course: PhD in Computer Science
       institution: University College London
       year: 2023-present
     - course: MSc in Applied Statistics

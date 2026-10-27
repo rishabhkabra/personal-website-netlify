@@ -67,7 +67,7 @@ sections:
       order: desc
     design:
       # Choose a layout view
-      view: compact
+      view: home-post-compact
       columns: '2'
   - block: collection
     id: publications
