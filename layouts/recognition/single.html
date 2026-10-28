@@ -150,11 +150,20 @@
     object-fit: contain;
   }
 
+  .aw-filter-icon-font {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.05rem;
+    color: #5f6368;
+  }
+
   /* Active state for filter tabs (driven by both CSS :checked and .iron-selected) */
   #gthanks-filter-all:checked ~ .gthanks-grid .aw-stat-type-item[data-filter="all"],
   #gthanks-filter-kudos:checked ~ .gthanks-grid .aw-stat-type-item[data-filter="kudos"],
   #gthanks-filter-peerbonus:checked ~ .gthanks-grid .aw-stat-type-item[data-filter="peerbonus"],
   #gthanks-filter-spotbonus:checked ~ .gthanks-grid .aw-stat-type-item[data-filter="spotbonus"],
+  #gthanks-filter-recommendation:checked ~ .gthanks-grid .aw-stat-type-item[data-filter="recommendation"],
   .aw-stat-type-item.iron-selected {
     background-color: #e8f0fe;
     border-color: #c6dafc;
@@ -166,6 +175,7 @@
   #gthanks-filter-kudos:checked ~ .gthanks-grid .aw-stat-type-item[data-filter="kudos"] .aw-stat-type-count,
   #gthanks-filter-peerbonus:checked ~ .gthanks-grid .aw-stat-type-item[data-filter="peerbonus"] .aw-stat-type-count,
   #gthanks-filter-spotbonus:checked ~ .gthanks-grid .aw-stat-type-item[data-filter="spotbonus"] .aw-stat-type-count,
+  #gthanks-filter-recommendation:checked ~ .gthanks-grid .aw-stat-type-item[data-filter="recommendation"] .aw-stat-type-count,
   .aw-stat-type-item.iron-selected .aw-stat-type-count {
     background-color: #d2e3fc;
     color: #174ea6;
@@ -176,6 +186,7 @@
   #gthanks-filter-kudos:checked ~ .gthanks-grid .award-list-item:not([data-award-type="kudos"]),
   #gthanks-filter-peerbonus:checked ~ .gthanks-grid .award-list-item:not([data-award-type="peerbonus"]),
   #gthanks-filter-spotbonus:checked ~ .gthanks-grid .award-list-item:not([data-award-type="spotbonus"]),
+  #gthanks-filter-recommendation:checked ~ .gthanks-grid .award-list-item:not([data-award-type="recommendation"]),
   .award-list-item.hidden-by-filter {
     display: none !important;
   }
@@ -217,7 +228,8 @@
   #gthanks-filter-all:checked ~ .gthanks-grid .gthanks-status-pill[data-status-for="all"],
   #gthanks-filter-kudos:checked ~ .gthanks-grid .gthanks-status-pill[data-status-for="kudos"],
   #gthanks-filter-peerbonus:checked ~ .gthanks-grid .gthanks-status-pill[data-status-for="peerbonus"],
-  #gthanks-filter-spotbonus:checked ~ .gthanks-grid .gthanks-status-pill[data-status-for="spotbonus"] {
+  #gthanks-filter-spotbonus:checked ~ .gthanks-grid .gthanks-status-pill[data-status-for="spotbonus"],
+  #gthanks-filter-recommendation:checked ~ .gthanks-grid .gthanks-status-pill[data-status-for="recommendation"] {
     display: inline-flex;
   }
 
@@ -240,7 +252,8 @@
 
   #gthanks-filter-kudos:checked ~ .gthanks-grid .gthanks-reset-filter-label,
   #gthanks-filter-peerbonus:checked ~ .gthanks-grid .gthanks-reset-filter-label,
-  #gthanks-filter-spotbonus:checked ~ .gthanks-grid .gthanks-reset-filter-label {
+  #gthanks-filter-spotbonus:checked ~ .gthanks-grid .gthanks-reset-filter-label,
+  #gthanks-filter-recommendation:checked ~ .gthanks-grid .gthanks-reset-filter-label {
     display: inline-block;
   }
 
@@ -634,6 +647,7 @@
   body.dark #gthanks-filter-kudos:checked ~ .gthanks-grid .aw-stat-type-item[data-filter="kudos"],
   body.dark #gthanks-filter-peerbonus:checked ~ .gthanks-grid .aw-stat-type-item[data-filter="peerbonus"],
   body.dark #gthanks-filter-spotbonus:checked ~ .gthanks-grid .aw-stat-type-item[data-filter="spotbonus"],
+  body.dark #gthanks-filter-recommendation:checked ~ .gthanks-grid .aw-stat-type-item[data-filter="recommendation"],
   body.dark .aw-stat-type-item.iron-selected {
     background-color: rgba(83, 189, 224, 0.16);
     border-color: rgba(83, 189, 224, 0.38);
@@ -644,6 +658,7 @@
   body.dark #gthanks-filter-kudos:checked ~ .gthanks-grid .aw-stat-type-item[data-filter="kudos"] .aw-stat-type-count,
   body.dark #gthanks-filter-peerbonus:checked ~ .gthanks-grid .aw-stat-type-item[data-filter="peerbonus"] .aw-stat-type-count,
   body.dark #gthanks-filter-spotbonus:checked ~ .gthanks-grid .aw-stat-type-item[data-filter="spotbonus"] .aw-stat-type-count,
+  body.dark #gthanks-filter-recommendation:checked ~ .gthanks-grid .aw-stat-type-item[data-filter="recommendation"] .aw-stat-type-count,
   body.dark .aw-stat-type-item.iron-selected .aw-stat-type-count {
     background-color: rgba(83, 189, 224, 0.24);
     color: #b7e8fa;
@@ -764,10 +779,12 @@
 {{- $kudosCount := 0 -}}
 {{- $peerCount := 0 -}}
 {{- $spotCount := 0 -}}
+{{- $recommendationCount := 0 -}}
 {{- range $awards -}}
   {{- if eq .filterType "kudos" -}}{{- $kudosCount = add $kudosCount 1 -}}{{- end -}}
   {{- if eq .filterType "peerbonus" -}}{{- $peerCount = add $peerCount 1 -}}{{- end -}}
   {{- if eq .filterType "spotbonus" -}}{{- $spotCount = add $spotCount 1 -}}{{- end -}}
+  {{- if eq .filterType "recommendation" -}}{{- $recommendationCount = add $recommendationCount 1 -}}{{- end -}}
 {{- end -}}
 
 <div class="gthanks-page-wrap" id="gthanks-recognition-root">
@@ -776,6 +793,7 @@
   <input type="radio" name="gthanks-filter" id="gthanks-filter-kudos" class="gthanks-filter-radio" value="kudos">
   <input type="radio" name="gthanks-filter" id="gthanks-filter-peerbonus" class="gthanks-filter-radio" value="peerbonus">
   <input type="radio" name="gthanks-filter" id="gthanks-filter-spotbonus" class="gthanks-filter-radio" value="spotbonus">
+  <input type="radio" name="gthanks-filter" id="gthanks-filter-recommendation" class="gthanks-filter-radio" value="recommendation">
 
   <div class="gthanks-header-row">
     <h1 class="gthanks-page-title">My Awards</h1>
@@ -817,6 +835,13 @@
           </span>
           <span class="aw-stat-type-count">{{ $spotCount }}</span>
         </label>
+        <label for="gthanks-filter-recommendation" class="aw-stat-type-item aw-type-filter" role="tab" tabindex="0" data-filter="recommendation">
+          <span class="aw-stat-type-item-left">
+            <i class="fas fa-envelope-open-text aw-filter-icon aw-filter-icon-font" aria-hidden="true"></i>
+            <span>Recommendations</span>
+          </span>
+          <span class="aw-stat-type-count">{{ $recommendationCount }}</span>
+        </label>
       </div>
     </nav>
 
@@ -836,6 +861,10 @@
         <span class="gthanks-status-pill" data-status-for="spotbonus">
           <img src="/recognition/icons/spotbonus_icon.png" alt="">
           Showing <strong>{{ $spotCount }}</strong> Spot Bonuses
+        </span>
+        <span class="gthanks-status-pill" data-status-for="recommendation">
+          <i class="fas fa-envelope-open-text" aria-hidden="true"></i>
+          Showing <strong>{{ $recommendationCount }}</strong> Recommendation{{ if ne $recommendationCount 1 }}s{{ end }}
         </span>
         <label for="gthanks-filter-all" class="gthanks-reset-filter-label">Show all ({{ len $awards }})</label>
       </div>
