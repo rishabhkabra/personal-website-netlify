@@ -378,7 +378,8 @@
   /* Compact bubble sizing across all award types (no bottom background illustrations) */
   .award-content-container.peer-bonus-award-container,
   .award-content-container.spot-bonus-award-container,
-  .award-content-container.kudos-award-container {
+  .award-content-container.kudos-award-container,
+  .award-content-container.recommendation-award-container {
     min-height: 108px;
     padding-bottom: 14px;
   }
@@ -507,6 +508,19 @@
     width: 12px;
     height: 12px;
     object-fit: contain;
+  }
+
+  .award-pdf-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: #1967d2;
+    font-size: 0.74rem;
+    font-weight: 600;
+  }
+
+  .award-pdf-link:hover {
+    color: #174ea6;
   }
 
   .award-hover-hint {
@@ -838,9 +852,19 @@
               <div class="award-reason-toolbar">
                 <span class="award-meta-date">{{ .date }}</span>
                 <span class="award-type-badge">
+                  {{- if .typeIcon }}
+                  <i class="{{ .typeIcon }}" aria-hidden="true"></i>
+                  {{- else }}
                   <img src="/recognition/icons/{{ .filterType }}_icon.png" alt="">
+                  {{- end }}
                   {{ .typeLabel }}
                 </span>
+                {{- if .pdfUrl }}
+                <a class="award-pdf-link" href="{{ .pdfUrl }}" target="_blank" rel="noopener noreferrer">
+                  <i class="fas fa-file-pdf" aria-hidden="true"></i>
+                  {{ .pdfLabel }}
+                </a>
+                {{- end }}
                 {{- if .isTruncated }}
                 <span class="award-hover-hint">Hover for full message</span>
                 {{- end }}
