@@ -462,6 +462,19 @@
     white-space: pre-line;
   }
 
+  .award-reason-full .award-reason-paragraph {
+    margin: 0 0 1rem;
+    white-space: pre-line;
+  }
+
+  .award-reason-full .award-reason-paragraph:last-child {
+    margin-bottom: 0;
+  }
+
+  .award-reason-full.award-reason-paragraphs {
+    white-space: normal;
+  }
+
   .award-content-container:hover .award-reason-short,
   .award-content-container:focus-within .award-reason-short,
   .award-content-container.force-expanded .award-reason-short,
@@ -848,7 +861,15 @@
               <p class="award-title" title="{{ .title }}">{{ .title }}</p>
               {{- end }}
               <p class="award-reason award-reason-short">{{ .shortReason }}</p>
-              <div class="award-reason award-reason-full">{{ .fullReason }}</div>
+              <div class="award-reason award-reason-full{{ if .fullReasonParagraphs }} award-reason-paragraphs{{ end }}">
+                {{- if .fullReasonParagraphs }}
+                  {{- range .fullReasonParagraphs }}
+                <p class="award-reason-paragraph">{{ . }}</p>
+                  {{- end }}
+                {{- else }}
+                {{ .fullReason }}
+                {{- end }}
+              </div>
               <div class="award-reason-toolbar">
                 <span class="award-meta-date">{{ .date }}</span>
                 <span class="award-type-badge">
