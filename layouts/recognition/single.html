@@ -1,0 +1,910 @@
+{{- define "main" -}}
+<style>
+  /* Soft, warm light surface matching gThanks (#fafafa / #f8f9fa) in Light Mode */
+  body:not(.dark) {
+    background-color: #f8f9fa;
+    color: #3c4043;
+  }
+
+  body:not(.dark) .page-body {
+    background-color: #f8f9fa;
+  }
+
+  /* Soft, non-glaring Dark Mode surface matching Wowchemy's dark slate (#23252f) */
+  body.dark {
+    background-color: #23252f;
+    color: #e4e7ee;
+  }
+
+  body.dark .page-body {
+    background-color: #23252f;
+  }
+
+  .gthanks-page-wrap {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 4rem;
+    font-family: Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    color: #3c4043;
+  }
+
+  /* Hidden CSS radio inputs for zero-JS / instant fallback filtering */
+  .gthanks-filter-radio {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    width: 0;
+    height: 0;
+  }
+
+  .gthanks-header-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #e0e3e7;
+  }
+
+  .gthanks-page-title {
+    font-family: Montserrat, Roboto, sans-serif;
+    font-size: 1.85rem;
+    font-weight: 400;
+    color: #3c4043;
+    margin: 0;
+  }
+
+  .gthanks-view-selector {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.88rem;
+    color: #5f6368;
+  }
+
+  .gthanks-view-btn {
+    background: #ffffff;
+    border: 1px solid #dadce0;
+    border-radius: 4px;
+    padding: 0.28rem 0.7rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #3c4043;
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .gthanks-view-btn:hover {
+    background-color: #f1f3f4;
+    border-color: #c6c9ce;
+  }
+
+  .gthanks-grid {
+    display: grid;
+    grid-template-columns: 235px 1fr;
+    gap: 2.5rem;
+    align-items: start;
+  }
+
+  /* Left filter sidebar matching gThanks #myawards */
+  .gthanks-sidebar {
+    position: sticky;
+    top: 90px;
+  }
+
+  .aw-stat-type-filter {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .aw-stat-type-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0.65rem 0.95rem;
+    margin-bottom: 0.3rem;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    font-size: 0.92rem;
+    font-weight: 400;
+    color: #3c4043;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  }
+
+  .aw-stat-type-item-left {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+  }
+
+  .aw-stat-type-count {
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: #5f6368;
+    background-color: #eef0f3;
+    padding: 1px 8px;
+    border-radius: 999px;
+    margin-left: 8px;
+    flex-shrink: 0;
+  }
+
+  .aw-stat-type-item:hover {
+    background-color: #eef2f7;
+  }
+
+  .aw-stat-type-item.aw-type-filter {
+    padding-left: 1.05rem;
+  }
+
+  .aw-filter-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 11px;
+    flex-shrink: 0;
+    object-fit: contain;
+  }
+
+  /* Active state for filter tabs (driven by both CSS :checked and .iron-selected) */
+  #gthanks-filter-all:checked ~ .gthanks-grid .aw-stat-type-item[data-filter="all"],
+  #gthanks-filter-kudos:checked ~ .gthanks-grid .aw-stat-type-item[data-filter="kudos"],
+  #gthanks-filter-peerbonus:checked ~ .gthanks-grid .aw-stat-type-item[data-filter="peerbonus"],
+  #gthanks-filter-spotbonus:checked ~ .gthanks-grid .aw-stat-type-item[data-filter="spotbonus"],
+  .aw-stat-type-item.iron-selected {
+    background-color: #e8f0fe;
+    border-color: #c6dafc;
+    color: #1967d2;
+    font-weight: 600;
+  }
+
+  #gthanks-filter-all:checked ~ .gthanks-grid .aw-stat-type-item[data-filter="all"] .aw-stat-type-count,
+  #gthanks-filter-kudos:checked ~ .gthanks-grid .aw-stat-type-item[data-filter="kudos"] .aw-stat-type-count,
+  #gthanks-filter-peerbonus:checked ~ .gthanks-grid .aw-stat-type-item[data-filter="peerbonus"] .aw-stat-type-count,
+  #gthanks-filter-spotbonus:checked ~ .gthanks-grid .aw-stat-type-item[data-filter="spotbonus"] .aw-stat-type-count,
+  .aw-stat-type-item.iron-selected .aw-stat-type-count {
+    background-color: #d2e3fc;
+    color: #174ea6;
+    font-weight: 600;
+  }
+
+  /* Pure CSS filtering rules for the right column */
+  #gthanks-filter-kudos:checked ~ .gthanks-grid .award-list-item:not([data-award-type="kudos"]),
+  #gthanks-filter-peerbonus:checked ~ .gthanks-grid .award-list-item:not([data-award-type="peerbonus"]),
+  #gthanks-filter-spotbonus:checked ~ .gthanks-grid .award-list-item:not([data-award-type="spotbonus"]),
+  .award-list-item.hidden-by-filter {
+    display: none !important;
+  }
+
+  /* Active filter status bar above the right column */
+  .gthanks-list-col {
+    min-width: 0;
+  }
+
+  .gthanks-filter-status-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 588px;
+    margin-bottom: 18px;
+    padding: 8px 14px;
+    background-color: #ffffff;
+    border: 1px solid #e3e6ea;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    color: #5f6368;
+    box-shadow: 0 1px 2px rgba(60, 64, 67, 0.04);
+  }
+
+  .gthanks-status-pill {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    color: #3c4043;
+  }
+
+  .gthanks-status-pill img {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+  }
+
+  #gthanks-filter-all:checked ~ .gthanks-grid .gthanks-status-pill[data-status-for="all"],
+  #gthanks-filter-kudos:checked ~ .gthanks-grid .gthanks-status-pill[data-status-for="kudos"],
+  #gthanks-filter-peerbonus:checked ~ .gthanks-grid .gthanks-status-pill[data-status-for="peerbonus"],
+  #gthanks-filter-spotbonus:checked ~ .gthanks-grid .gthanks-status-pill[data-status-for="spotbonus"] {
+    display: inline-flex;
+  }
+
+  .gthanks-reset-filter-label {
+    display: none;
+    margin: 0;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #1967d2;
+    cursor: pointer;
+    padding: 2px 8px;
+    border-radius: 4px;
+    transition: background-color 0.15s ease;
+  }
+
+  .gthanks-reset-filter-label:hover {
+    background-color: #e8f0fe;
+    text-decoration: underline;
+  }
+
+  #gthanks-filter-kudos:checked ~ .gthanks-grid .gthanks-reset-filter-label,
+  #gthanks-filter-peerbonus:checked ~ .gthanks-grid .gthanks-reset-filter-label,
+  #gthanks-filter-spotbonus:checked ~ .gthanks-grid .gthanks-reset-filter-label {
+    display: inline-block;
+  }
+
+  /* Chat messages style award log */
+  .award-list {
+    padding-top: 8px;
+  }
+
+  @keyframes gthanksCardFade {
+    from {
+      opacity: 0.35;
+      transform: translateY(4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .award-list.filter-animating .award-list-item {
+    animation: gthanksCardFade 0.2s ease-out;
+  }
+
+  .award-list-item {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding-bottom: 40px;
+    width: 100%;
+  }
+
+  /* Left nominator tiny bubble photo + name */
+  .award-nominator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 118px;
+    flex-shrink: 0;
+    padding: 6px 12px 0 4px;
+    text-align: center;
+    color: #5f6368;
+  }
+
+  .person-photo {
+    background-color: #dadce0;
+    background-position: center 25%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  .award-nominator-link,
+  .award-nominee-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .award-nominator-link:hover,
+  .award-nominee-link:hover {
+    text-decoration: none;
+  }
+
+  .award-nominator .person-photo {
+    width: 38px;
+    height: 38px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .award-nominator-link:hover .person-photo {
+    transform: scale(1.06);
+    box-shadow: 0 2px 6px rgba(25, 103, 210, 0.25);
+  }
+
+  .award-nominator .person-name {
+    margin: 6px 0 0;
+    font-size: 0.78rem;
+    line-height: 1.25;
+    color: #5f6368;
+    max-width: 104px;
+    word-wrap: break-word;
+    transition: color 0.15s ease;
+  }
+
+  .award-nominator-link:hover .person-name {
+    color: #1967d2;
+    text-decoration: underline;
+  }
+
+  /* Right chat-message speech bubble */
+  .award-to {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .award-content-container {
+    position: relative;
+    max-width: 470px;
+    background-color: #ffffff;
+    border: 1px solid #d6d9de;
+    border-radius: 6px;
+    padding: 14px 16px 12px 16px;
+    box-sizing: border-box;
+    box-shadow: 0 1px 3px rgba(60, 64, 67, 0.06);
+    transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+  }
+
+  /* Left-pointing speech bubble tail */
+  .award-content-container::before,
+  .award-content-container::after {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 0;
+    height: 0;
+    border: 10px solid transparent;
+    top: 16px;
+  }
+
+  .award-content-container::before {
+    border-right-color: #d6d9de;
+    left: -20px;
+  }
+
+  .award-content-container::after {
+    border-right-color: #ffffff;
+    left: -19px;
+  }
+
+  /* Compact bubble sizing across all award types (no bottom background illustrations) */
+  .award-content-container.peer-bonus-award-container,
+  .award-content-container.spot-bonus-award-container,
+  .award-content-container.kudos-award-container {
+    min-height: 108px;
+    padding-bottom: 14px;
+  }
+
+  /* Hover / focus state to reveal full message */
+  .award-content-container:hover,
+  .award-content-container:focus-within,
+  .award-content-container.force-expanded {
+    border-color: #53bde0;
+    box-shadow: 0 6px 20px rgba(21, 101, 192, 0.12);
+  }
+
+  .award-content-container:hover::before,
+  .award-content-container:focus-within::before,
+  .award-content-container.force-expanded::before {
+    border-right-color: #53bde0;
+  }
+
+  /* Top-right recipient bubble photo + name */
+  .award-nominee {
+    position: absolute;
+    right: 12px;
+    top: -24px;
+    width: 96px;
+    text-align: center;
+    z-index: 1;
+  }
+
+  .award-nominee .person-photo {
+    width: 48px;
+    height: 48px;
+    border: 4px solid #53bde0;
+    background-color: #ffffff;
+    box-sizing: content-box;
+    transition: transform 0.15s ease, border-color 0.15s ease;
+  }
+
+  .award-nominee-link:hover .person-photo {
+    transform: scale(1.05);
+    border-color: #1967d2;
+  }
+
+  .award-nominee-name {
+    margin: 2px 0 0;
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: #202124;
+    line-height: 1.2;
+    white-space: nowrap;
+    transition: color 0.15s ease;
+  }
+
+  .award-nominee-link:hover .award-nominee-name {
+    color: #1967d2;
+    text-decoration: underline;
+  }
+
+  /* Award title (for Spot Bonuses) */
+  .award-title {
+    margin: 0 0 6px 0;
+    padding-right: 98px;
+    font-size: 0.94rem;
+    font-weight: 700;
+    color: #202124;
+    line-height: 1.3;
+  }
+
+  /* Short-at-first-glance vs Full message on mouseover */
+  .award-reason {
+    margin: 0 0 10px 0;
+    padding-right: 96px;
+    font-size: 0.95rem;
+    line-height: 1.45;
+    color: #3c4043;
+    word-wrap: break-word;
+  }
+
+  .award-reason-full {
+    display: none;
+    white-space: pre-line;
+  }
+
+  .award-content-container:hover .award-reason-short,
+  .award-content-container:focus-within .award-reason-short,
+  .award-content-container.force-expanded .award-reason-short,
+  .gthanks-page-wrap.expand-all .award-reason-short {
+    display: none;
+  }
+
+  .award-content-container:hover .award-reason-full,
+  .award-content-container:focus-within .award-reason-full,
+  .award-content-container.force-expanded .award-reason-full,
+  .gthanks-page-wrap.expand-all .award-reason-full {
+    display: block;
+  }
+
+  /* Toolbar at bottom of message text */
+  .award-reason-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    font-size: 0.78rem;
+    color: #5f6368;
+  }
+
+  .award-meta-date {
+    color: #70757a;
+    font-size: 0.78rem;
+  }
+
+  .award-type-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: #5f6368;
+    background-color: #f1f3f4;
+    padding: 1px 7px;
+    border-radius: 10px;
+  }
+
+  .award-type-badge img {
+    width: 12px;
+    height: 12px;
+    object-fit: contain;
+  }
+
+  .award-hover-hint {
+    font-size: 0.72rem;
+    color: #1967d2;
+    background: rgba(25, 103, 210, 0.08);
+    padding: 1px 7px;
+    border-radius: 10px;
+    transition: opacity 0.15s ease;
+  }
+
+  .award-content-container:hover .award-hover-hint,
+  .award-content-container:focus-within .award-hover-hint,
+  .award-content-container.force-expanded .award-hover-hint,
+  .gthanks-page-wrap.expand-all .award-hover-hint {
+    display: none;
+  }
+
+  /* Responsive mobile layout */
+  @media (max-width: 768px) {
+    .gthanks-grid {
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+
+    .gthanks-sidebar {
+      position: static;
+    }
+
+    .aw-stat-type-filter {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .aw-stat-type-item {
+      width: auto;
+      padding: 0.45rem 0.75rem;
+      font-size: 0.84rem;
+      border: 1px solid #dadce0;
+      background-color: #ffffff;
+    }
+
+    .award-nominator {
+      width: 78px;
+      padding-right: 8px;
+    }
+
+    .award-content-container {
+      max-width: 100%;
+    }
+  }
+
+  /* ==========================================================================
+     Dark Mode (body.dark) — Soft, muted dark-slate surfaces (no glaring white)
+     ========================================================================== */
+  body.dark .gthanks-page-wrap {
+    color: #e4e7ee;
+  }
+
+  body.dark .gthanks-header-row {
+    border-bottom-color: #383c4c;
+  }
+
+  body.dark .gthanks-page-title {
+    color: #f0f2f8;
+  }
+
+  body.dark .gthanks-view-selector {
+    color: #a6aec0;
+  }
+
+  body.dark .gthanks-view-btn {
+    background-color: #2f3241;
+    border-color: #43485b;
+    color: #e4e7ee;
+  }
+
+  body.dark .gthanks-view-btn:hover {
+    background-color: #383c4e;
+    border-color: #555b72;
+  }
+
+  body.dark .aw-stat-type-item {
+    color: #cfd5e2;
+  }
+
+  body.dark .aw-stat-type-item:hover {
+    background-color: #2c303e;
+  }
+
+  body.dark .aw-stat-type-count {
+    background-color: #323646;
+    color: #aeb6c8;
+  }
+
+  body.dark #gthanks-filter-all:checked ~ .gthanks-grid .aw-stat-type-item[data-filter="all"],
+  body.dark #gthanks-filter-kudos:checked ~ .gthanks-grid .aw-stat-type-item[data-filter="kudos"],
+  body.dark #gthanks-filter-peerbonus:checked ~ .gthanks-grid .aw-stat-type-item[data-filter="peerbonus"],
+  body.dark #gthanks-filter-spotbonus:checked ~ .gthanks-grid .aw-stat-type-item[data-filter="spotbonus"],
+  body.dark .aw-stat-type-item.iron-selected {
+    background-color: rgba(83, 189, 224, 0.16);
+    border-color: rgba(83, 189, 224, 0.38);
+    color: #8ad8f5;
+  }
+
+  body.dark #gthanks-filter-all:checked ~ .gthanks-grid .aw-stat-type-item[data-filter="all"] .aw-stat-type-count,
+  body.dark #gthanks-filter-kudos:checked ~ .gthanks-grid .aw-stat-type-item[data-filter="kudos"] .aw-stat-type-count,
+  body.dark #gthanks-filter-peerbonus:checked ~ .gthanks-grid .aw-stat-type-item[data-filter="peerbonus"] .aw-stat-type-count,
+  body.dark #gthanks-filter-spotbonus:checked ~ .gthanks-grid .aw-stat-type-item[data-filter="spotbonus"] .aw-stat-type-count,
+  body.dark .aw-stat-type-item.iron-selected .aw-stat-type-count {
+    background-color: rgba(83, 189, 224, 0.24);
+    color: #b7e8fa;
+  }
+
+  body.dark .gthanks-filter-status-bar {
+    background-color: #2b2e3c;
+    border-color: #3d4254;
+    color: #aeb6c8;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  }
+
+  body.dark .gthanks-status-pill {
+    color: #e4e7ee;
+  }
+
+  body.dark .gthanks-reset-filter-label {
+    color: #7fd4f0;
+  }
+
+  body.dark .gthanks-reset-filter-label:hover {
+    background-color: rgba(83, 189, 224, 0.15);
+  }
+
+  body.dark .award-nominator,
+  body.dark .award-nominator .person-name {
+    color: #a9b1c2;
+  }
+
+  body.dark .award-nominator-link:hover .person-name {
+    color: #8ad8f5;
+  }
+
+  body.dark .award-nominator .person-photo {
+    background-color: #3a3f50;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+  }
+
+  body.dark .award-content-container {
+    background-color: #2f3241;
+    border-color: #43485b;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22);
+  }
+
+  body.dark .award-content-container::before {
+    border-right-color: #43485b;
+  }
+
+  body.dark .award-content-container::after {
+    border-right-color: #2f3241;
+  }
+
+  body.dark .award-content-container:hover,
+  body.dark .award-content-container:focus-within,
+  body.dark .award-content-container.force-expanded {
+    border-color: #53bde0;
+    box-shadow: 0 6px 22px rgba(0, 0, 0, 0.38);
+  }
+
+  body.dark .award-content-container:hover::before,
+  body.dark .award-content-container:focus-within::before,
+  body.dark .award-content-container.force-expanded::before {
+    border-right-color: #53bde0;
+  }
+
+  body.dark .award-nominee .person-photo {
+    border-color: #4aa8c8;
+    background-color: #2f3241;
+  }
+
+  body.dark .award-nominee-link:hover .person-photo {
+    border-color: #8ad8f5;
+  }
+
+  body.dark .award-nominee-name {
+    color: #f0f2f8;
+  }
+
+  body.dark .award-nominee-link:hover .award-nominee-name {
+    color: #8ad8f5;
+  }
+
+  body.dark .award-title {
+    color: #f2f4fa;
+  }
+
+  body.dark .award-reason {
+    color: #dce1ec;
+  }
+
+  body.dark .award-reason-toolbar {
+    color: #9da5b6;
+  }
+
+  body.dark .award-meta-date {
+    color: #9da5b6;
+  }
+
+  body.dark .award-type-badge {
+    background-color: #3a3e50;
+    color: #cfd5e2;
+  }
+
+  body.dark .award-hover-hint {
+    color: #8ad8f5;
+    background: rgba(83, 189, 224, 0.16);
+  }
+
+  @media (max-width: 768px) {
+    body.dark .aw-stat-type-item {
+      background-color: #2f3241;
+      border-color: #43485b;
+    }
+  }
+</style>
+
+{{- $awards := site.Data.recognition -}}
+{{- $kudosCount := 0 -}}
+{{- $peerCount := 0 -}}
+{{- $spotCount := 0 -}}
+{{- range $awards -}}
+  {{- if eq .filterType "kudos" -}}{{- $kudosCount = add $kudosCount 1 -}}{{- end -}}
+  {{- if eq .filterType "peerbonus" -}}{{- $peerCount = add $peerCount 1 -}}{{- end -}}
+  {{- if eq .filterType "spotbonus" -}}{{- $spotCount = add $spotCount 1 -}}{{- end -}}
+{{- end -}}
+
+<div class="gthanks-page-wrap" id="gthanks-recognition-root">
+  <!-- Radio inputs power instant CSS filtering on the right column -->
+  <input type="radio" name="gthanks-filter" id="gthanks-filter-all" class="gthanks-filter-radio" value="all" checked>
+  <input type="radio" name="gthanks-filter" id="gthanks-filter-kudos" class="gthanks-filter-radio" value="kudos">
+  <input type="radio" name="gthanks-filter" id="gthanks-filter-peerbonus" class="gthanks-filter-radio" value="peerbonus">
+  <input type="radio" name="gthanks-filter" id="gthanks-filter-spotbonus" class="gthanks-filter-radio" value="spotbonus">
+
+  <div class="gthanks-header-row">
+    <h1 class="gthanks-page-title">My Awards</h1>
+    <div class="gthanks-view-selector">
+      <span>View :</span>
+      <button type="button" class="gthanks-view-btn" id="gthanks-toggle-expand" aria-pressed="false" title="Toggle between compact preview (mouseover to read full message) and showing all full messages">
+        Compact (hover for full text) ▾
+      </button>
+    </div>
+  </div>
+
+  <div class="gthanks-grid">
+    <nav class="gthanks-sidebar" aria-label="Filter awards by type">
+      <div class="aw-stat-type-filter" role="tablist" aria-orientation="vertical">
+        <label for="gthanks-filter-all" class="aw-stat-type-item" role="tab" tabindex="0" data-filter="all">
+          <span class="aw-stat-type-item-left">
+            <span>Awards Received</span>
+          </span>
+          <span class="aw-stat-type-count">{{ len $awards }}</span>
+        </label>
+        <label for="gthanks-filter-kudos" class="aw-stat-type-item aw-type-filter" role="tab" tabindex="0" data-filter="kudos">
+          <span class="aw-stat-type-item-left">
+            <img class="aw-filter-icon" src="/recognition/icons/kudos_icon.png" alt="" loading="lazy">
+            <span>Kudos</span>
+          </span>
+          <span class="aw-stat-type-count">{{ $kudosCount }}</span>
+        </label>
+        <label for="gthanks-filter-peerbonus" class="aw-stat-type-item aw-type-filter" role="tab" tabindex="0" data-filter="peerbonus">
+          <span class="aw-stat-type-item-left">
+            <img class="aw-filter-icon" src="/recognition/icons/peerbonus_icon.png" alt="" loading="lazy">
+            <span>Peer Bonus</span>
+          </span>
+          <span class="aw-stat-type-count">{{ $peerCount }}</span>
+        </label>
+        <label for="gthanks-filter-spotbonus" class="aw-stat-type-item aw-type-filter" role="tab" tabindex="0" data-filter="spotbonus">
+          <span class="aw-stat-type-item-left">
+            <img class="aw-filter-icon" src="/recognition/icons/spotbonus_icon.png" alt="" loading="lazy">
+            <span>Spot Bonus</span>
+          </span>
+          <span class="aw-stat-type-count">{{ $spotCount }}</span>
+        </label>
+      </div>
+    </nav>
+
+    <div class="gthanks-list-col">
+      <div class="gthanks-filter-status-bar" aria-live="polite">
+        <span class="gthanks-status-pill" data-status-for="all">
+          Showing all <strong>{{ len $awards }}</strong> awards received
+        </span>
+        <span class="gthanks-status-pill" data-status-for="kudos">
+          <img src="/recognition/icons/kudos_icon.png" alt="">
+          Showing <strong>{{ $kudosCount }}</strong> Kudos
+        </span>
+        <span class="gthanks-status-pill" data-status-for="peerbonus">
+          <img src="/recognition/icons/peerbonus_icon.png" alt="">
+          Showing <strong>{{ $peerCount }}</strong> Peer Bonuses
+        </span>
+        <span class="gthanks-status-pill" data-status-for="spotbonus">
+          <img src="/recognition/icons/spotbonus_icon.png" alt="">
+          Showing <strong>{{ $spotCount }}</strong> Spot Bonuses
+        </span>
+        <label for="gthanks-filter-all" class="gthanks-reset-filter-label">Show all ({{ len $awards }})</label>
+      </div>
+
+      <div class="award-list" id="gthanks-award-list">
+        {{- range $awards }}
+        <div class="award-list-item" data-award-type="{{ .filterType }}">
+          <div class="award-nominator">
+            <a class="award-nominator-link" href="{{ .nominatorUrl }}" target="_blank" rel="noopener noreferrer" title="{{ .nominatorName }}">
+              <div class="person-photo" style="background-image: url('{{ .nominatorPhoto }}');" role="img" aria-label="{{ .nominatorName }}"></div>
+              <p class="person-name">{{ .nominatorName }}</p>
+            </a>
+          </div>
+          <div class="award-to">
+            <div class="award-content-container {{ .containerClass }}" tabindex="0" title="{{ .fullReason }}">
+              <div class="award-nominee">
+                <a class="award-nominee-link" href="{{ .nomineeUrl }}" target="_blank" rel="noopener noreferrer" title="{{ .nomineeName }}">
+                  <div class="person-photo" style="background-image: url('{{ .nomineePhoto }}');" role="img" aria-label="{{ .nomineeName }}"></div>
+                  <p class="award-nominee-name">{{ .nomineeName }}</p>
+                </a>
+              </div>
+              {{- if .title }}
+              <p class="award-title" title="{{ .title }}">{{ .title }}</p>
+              {{- end }}
+              <p class="award-reason award-reason-short">{{ .shortReason }}</p>
+              <div class="award-reason award-reason-full">{{ .fullReason }}</div>
+              <div class="award-reason-toolbar">
+                <span class="award-meta-date">{{ .date }}</span>
+                <span class="award-type-badge">
+                  <img src="/recognition/icons/{{ .filterType }}_icon.png" alt="">
+                  {{ .typeLabel }}
+                </span>
+                {{- if .isTruncated }}
+                <span class="award-hover-hint">Hover for full message</span>
+                {{- end }}
+              </div>
+            </div>
+          </div>
+        </div>
+        {{- end }}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    var root = document.getElementById('gthanks-recognition-root');
+    if (!root) return;
+
+    var awardList = document.getElementById('gthanks-award-list');
+    var radios = root.querySelectorAll('.gthanks-filter-radio');
+    var labels = root.querySelectorAll('.aw-stat-type-item');
+
+    function triggerListAnimation() {
+      if (!awardList) return;
+      awardList.classList.remove('filter-animating');
+      void awardList.offsetWidth;
+      awardList.classList.add('filter-animating');
+    }
+
+    radios.forEach(function(radio) {
+      radio.addEventListener('change', function() {
+        triggerListAnimation();
+      });
+    });
+
+    labels.forEach(function(label) {
+      label.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          label.click();
+        }
+      });
+    });
+
+    // Click-to-pin individual bubble (helpful on touch devices)
+    var bubbles = root.querySelectorAll('.award-content-container');
+    bubbles.forEach(function(bubble) {
+      bubble.addEventListener('click', function(e) {
+        if (e.target && e.target.closest && e.target.closest('a')) return;
+        bubble.classList.toggle('force-expanded');
+      });
+    });
+
+    // Global compact vs expand-all toggle
+    var toggleBtn = document.getElementById('gthanks-toggle-expand');
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', function() {
+        var isExpanded = root.classList.toggle('expand-all');
+        toggleBtn.setAttribute('aria-pressed', isExpanded ? 'true' : 'false');
+        toggleBtn.textContent = isExpanded
+          ? 'Full messages (click for compact) ▾'
+          : 'Compact (hover for full text) ▾';
+      });
+    }
+  })();
+</script>
+{{- end -}}
