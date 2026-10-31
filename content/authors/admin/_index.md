@@ -14,7 +14,6 @@ status:
 superuser: true
 
 # Role/position/tagline
-role: Research Engineer and PhD Student
 
 # Organizations/Affiliations to show in About widget
 organizations:
@@ -75,7 +74,7 @@ social:
 highlight_name: true
 ---
 
-I'm a Research Engineer at Google DeepMind where I've been since 2017. I'm interested in representation learning, scene understanding, and generative models. Back in the day, I trained for the Indian National team for the Informatics Olympiad (['09](https://www.iarcs.org.in/inoi/2009/inoi2009/results_inoi2009.php), ['10](https://www.iarcs.org.in/inoi/2010/inoi2010/results_inoi2010.php)), and represented the UAE at the World Robot Olympiad ([Taiwan '07](https://gulfnews.com/general/young-robot-designers-1.208116), Japan '08). 
+I’m a researcher at Google DeepMind where I’ve been since 2017. I’m interested in representation learning, scene understanding, and generative models. Back in the day, I trained for the Indian National team for the Informatics Olympiad (['09](https://www.iarcs.org.in/inoi/2009/inoi2009/results_inoi2009.php), ['10](https://www.iarcs.org.in/inoi/2010/inoi2010/results_inoi2010.php)), and represented the UAE at the World Robot Olympiad ([Taiwan '07](https://gulfnews.com/general/young-robot-designers-1.208116), Japan '08).
 
 Fun fact: I have lived in every country whose name begins with "United."
 
